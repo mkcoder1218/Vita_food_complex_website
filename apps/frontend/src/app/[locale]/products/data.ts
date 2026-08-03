@@ -103,6 +103,45 @@ const getDefaultContent = (): ProductContent => ({
   ],
 });
 
+const getFlourContent = (
+  description: string,
+  servingSize: string = "Per 100g",
+  calories: number = 364
+): ProductContent => ({
+  description,
+  netWeight: "5kg",
+  nutrition: {
+    servingSize,
+    calories,
+    items: [
+      { name: "Fat", value: 1, unit: "g", dailyValue: 1 },
+      { name: "Carbohydrate", value: 76, unit: "g", dailyValue: 28 },
+      { name: "Protein", value: 10, unit: "g", dailyValue: 20 },
+      { name: "Cholesterol", value: 0, unit: "mg", dailyValue: 0 },
+      { name: "Sodium", value: 2, unit: "mg", dailyValue: 0 },
+      { name: "Iron", value: 4, unit: "mg", dailyValue: 22 },
+      { name: "Folic Acid", value: 140, unit: "mg", dailyValue: 35 },
+    ],
+  },
+  ingredients: {
+    list: [
+      { name: "Wheat", type: "main" },
+      { name: "Iron", type: "additive" },
+      { name: "Folic Acid", type: "additive" },
+      { name: "Vitamin B12", type: "additive" },
+    ],
+    contains: ["Wheat"],
+    mayContain: ["Soy", "Gluten"],
+  },
+  certifications: [
+    { name: "EAS", image: "/assets/quality/figma/cert_eas.png" },
+    { name: "EFDA", image: "/assets/quality/figma/cert_efda.png" },
+    { name: "ISO", image: "/assets/quality/figma/cert_iso.png" },
+    { name: "LRQA", image: "/assets/quality/figma/cert_lrqa.png" },
+  ],
+});
+
+
 export const products: Product[] = [
   {
     id: "zoo",
@@ -369,8 +408,68 @@ export const products: Product[] = [
       textColor: "#000000",
       nameColor: "#FFFFFF",
     },
-    relatedProducts: ["all-purpose", "zoo", "oreo", "tafach-vanilla"],
-    content: getDefaultContent(),
+    relatedProducts: ["burger-flour-10kg", "burger-flour-15kg", "burger-flour-25kg", "burger-flour-50kg"],
+    content: getFlourContent("Premium flour for making the perfect burger buns."),
+  },
+  {
+    id: "burger-flour-10kg",
+    name: "Burger Flour 10kg",
+    category: "Flour",
+    media: {
+      image: "/assets/products/items/burger-flour-10kg.png",
+    },
+    ui: {
+      bgColor: "linear-gradient(135deg, #F1F8E9 0%, #DCEDC8 100%)",
+      textColor: "#000000",
+      nameColor: "#FFFFFF",
+    },
+    relatedProducts: ["burger-flour", "burger-flour-15kg", "burger-flour-25kg", "burger-flour-50kg"],
+    content: getFlourContent("Premium flour for making the perfect burger buns.", "Per 100g", 364),
+  },
+  {
+    id: "burger-flour-15kg",
+    name: "Burger Flour 15kg",
+    category: "Flour",
+    media: {
+      image: "/assets/products/items/burger-flour-15kg.png",
+    },
+    ui: {
+      bgColor: "linear-gradient(135deg, #F1F8E9 0%, #DCEDC8 100%)",
+      textColor: "#000000",
+      nameColor: "#FFFFFF",
+    },
+    relatedProducts: ["burger-flour", "burger-flour-10kg", "burger-flour-25kg", "burger-flour-50kg"],
+    content: getFlourContent("Premium flour for making the perfect burger buns.", "Per 100g", 364),
+  },
+  {
+    id: "burger-flour-25kg",
+    name: "Burger Flour 25kg",
+    category: "Flour",
+    media: {
+      image: "/assets/products/items/burger-flour-25kg.png",
+    },
+    ui: {
+      bgColor: "linear-gradient(135deg, #F1F8E9 0%, #DCEDC8 100%)",
+      textColor: "#000000",
+      nameColor: "#FFFFFF",
+    },
+    relatedProducts: ["burger-flour", "burger-flour-10kg", "burger-flour-15kg", "burger-flour-50kg"],
+    content: getFlourContent("Premium flour for making the perfect burger buns.", "Per 100g", 364),
+  },
+  {
+    id: "burger-flour-50kg",
+    name: "Burger Flour 50kg",
+    category: "Flour",
+    media: {
+      image: "/assets/products/items/burger-flour-50kg.png",
+    },
+    ui: {
+      bgColor: "linear-gradient(135deg, #F1F8E9 0%, #DCEDC8 100%)",
+      textColor: "#000000",
+      nameColor: "#FFFFFF",
+    },
+    relatedProducts: ["burger-flour", "burger-flour-10kg", "burger-flour-15kg", "burger-flour-25kg"],
+    content: getFlourContent("Premium flour for making the perfect burger buns.", "Per 100g", 364),
   },
   {
     id: "all-purpose",
@@ -385,7 +484,7 @@ export const products: Product[] = [
       nameColor: "#000000",
     },
     relatedProducts: ["burger-flour", "cream", "high-energy", "tafach-mango"],
-    content: getDefaultContent(),
+    content: getFlourContent("Versatile flour for all your baking and cooking needs."),
   },
   {
     id: "marie-cream",

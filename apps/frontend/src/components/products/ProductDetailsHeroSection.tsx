@@ -69,7 +69,9 @@ export default function ProductHeroSection({
             src={product.media.image}
             alt={product.name}
             fill
-            className="object-contain drop-shadow-[0_15px_30px_rgba(0,0,0,0.16)] hover:-translate-y-2 transition-all duration-500 scale-110 z-10"
+            className={`object-contain drop-shadow-[0_15px_30px_rgba(0,0,0,0.16)] hover:-translate-y-2 transition-all duration-500 z-10 ${
+              product.category === "Flour" ? "scale-95 rotate-[35deg] hover:rotate-[15deg]" : "scale-110"
+            }`}
             priority
           />
         </div>
@@ -100,6 +102,20 @@ export default function ProductHeroSection({
                 aria-label={`Color variation ${idx + 1}`}
               />
             ))}
+          </div>
+        )}
+
+        {/* Net Weight or Available Sizes Badge */}
+        {product.content?.netWeight && (
+          <div
+            className="relative z-20 mt-6 px-5 py-2 rounded-full backdrop-blur-md border text-xs sm:text-sm font-['Outfit'] font-bold tracking-wide uppercase transition-all duration-300"
+            style={{
+              color: product.ui.textColor,
+              borderColor: `${product.ui.textColor}33`,
+              backgroundColor: `${product.ui.textColor}0A`,
+            }}
+          >
+            {product.content.netWeight.includes(',') ? 'Available Sizes' : 'Net Weight'}: {product.content.netWeight}
           </div>
         )}
       </div>

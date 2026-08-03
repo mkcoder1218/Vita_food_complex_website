@@ -418,12 +418,27 @@ function ProductModal({
               </div>
               <div className="md:col-span-2">
                 <label className="block text-xs font-semibold text-[#333733] mb-1">Net weight</label>
-                <input
-                  className={inputCls}
-                  placeholder="e.g. 120g"
-                  value={value.content.netWeight ?? ""}
-                  onChange={(e) => setContent({ netWeight: e.target.value })}
-                />
+                {value.category?.toLowerCase() === 'flour' ? (
+                  <select
+                    className={inputCls}
+                    value={value.content.netWeight ?? ""}
+                    onChange={(e) => setContent({ netWeight: e.target.value })}
+                  >
+                    <option value="">Select weight</option>
+                    <option value="5kg">5kg</option>
+                    <option value="10kg">10kg</option>
+                    <option value="15kg">15kg</option>
+                    <option value="25kg">25kg</option>
+                    <option value="50kg">50kg</option>
+                  </select>
+                ) : (
+                  <input
+                    className={inputCls}
+                    placeholder="e.g. 120g"
+                    value={value.content.netWeight ?? ""}
+                    onChange={(e) => setContent({ netWeight: e.target.value })}
+                  />
+                )}
               </div>
             </div>
           )}
@@ -433,11 +448,27 @@ function ProductModal({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-semibold text-[#333733] mb-1">Serving size</label>
-                  <input
-                    className={inputCls}
-                    value={nutrition.servingSize}
-                    onChange={(e) => setNutrition({ servingSize: e.target.value })}
-                  />
+                  {value.category?.toLowerCase() === 'flour' ? (
+                    <select
+                      className={inputCls}
+                      value={nutrition.servingSize}
+                      onChange={(e) => setNutrition({ servingSize: e.target.value })}
+                    >
+                      <option value="">Select serving size</option>
+                      <option value="Per 100g">Per 100g</option>
+                      <option value="5kg">5kg</option>
+                      <option value="10kg">10kg</option>
+                      <option value="15kg">15kg</option>
+                      <option value="25kg">25kg</option>
+                      <option value="50kg">50kg</option>
+                    </select>
+                  ) : (
+                    <input
+                      className={inputCls}
+                      value={nutrition.servingSize}
+                      onChange={(e) => setNutrition({ servingSize: e.target.value })}
+                    />
+                  )}
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-[#333733] mb-1">Calories</label>

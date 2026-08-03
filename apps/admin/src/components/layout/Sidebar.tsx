@@ -3,7 +3,7 @@
 import {
   LayoutDashboard, FileText, ShoppingBag, Briefcase,
   MessageSquare, Users, Settings, LogOut, ChevronRight, X, Newspaper, Heart, HelpCircle, ScrollText, UtensilsCrossed,
-  Headphones, Truck,
+  Headphones, Truck, Building2,
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -43,6 +43,7 @@ export const navSections = [
   {
     label: 'System',
     items: [
+      { id: 'business-info', icon: Building2, label: 'Business Info', href: '/business-info' },
       { id: 'settings', icon: Settings, label: 'Settings', href: '/settings' },
     ],
   },
