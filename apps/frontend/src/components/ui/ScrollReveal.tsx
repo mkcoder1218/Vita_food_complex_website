@@ -11,9 +11,9 @@ interface ScrollRevealProps {
   xOffset?: number;
   className?: string;
   /**
-   * Keep the entrance animation, but default to running it only once per page
-   * visit. Re-triggering every large section while the user scrolls creates
-   * unnecessary compositing work and makes wheel/touch scrolling feel sticky.
+   * Set to true only for sections that should reveal a single time.
+   * The default is false so Vita's section reveal animation plays again when
+   * the user scrolls away and then returns from either direction.
    */
   once?: boolean;
 }
@@ -25,7 +25,7 @@ export default function ScrollReveal({
   yOffset = 30,
   xOffset = 0,
   className = "",
-  once = true,
+  once = false,
 }: ScrollRevealProps) {
   const ref = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
