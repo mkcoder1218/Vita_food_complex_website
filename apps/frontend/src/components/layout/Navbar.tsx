@@ -178,8 +178,11 @@ export default function Navbar() {
                     src="/assets/brand/vita-logo.svg"
                     alt="Vita Food Complex"
                     fill
+                    unoptimized
+                    loading="eager"
+                    fetchPriority="high"
+                    sizes="(max-width: 640px) 60px, (max-width: 1024px) 80px, (max-width: 1280px) 92px, 103px"
                     className="object-contain"
-                    priority
                   />
                 </div>
               </div>
@@ -773,6 +776,7 @@ export default function Navbar() {
                   <Image
                     src="https://picsum.photos/400/300?random=55"
                     fill
+                    sizes="340px"
                     className="object-cover"
                     alt="Experiences"
                   />

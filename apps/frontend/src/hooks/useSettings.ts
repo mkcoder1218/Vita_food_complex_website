@@ -24,9 +24,15 @@ export function useSettings() {
     api.get("/settings")
       .then((res) => {
         const data = Array.isArray(res.data) ? res.data[0] : res.data;
-        setSettings(data);
+        setSettings(data ?? null);
       })
-      .catch((err) => console.error("Failed to fetch settings:", err))
+      .catch((err) => {
+        const code = (err as { code?: string } | null)?.code;
+        if (code !== "ERR_NETWORK") {
+          console.error("Failed to fetch settings:", err);
+        }
+        setSettings(null);
+      })
       .finally(() => setLoading(false));
   }, []);
 

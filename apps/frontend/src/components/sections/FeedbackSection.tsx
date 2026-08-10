@@ -57,7 +57,6 @@ export default function FeedbackSection({
   return (
     <section className="w-full bg-white py-16 px-4 md:px-8">
       <div className="max-w-[1664px] mx-auto flex flex-col gap-[160px]">
-        {/* Top Green Banner */}
         <div 
           className="relative w-full rounded-[48px] overflow-hidden min-h-[572px] flex items-center justify-center"
           style={{
@@ -69,59 +68,71 @@ export default function FeedbackSection({
             `
           }}
         >
-
-          {/* Floating Images */}
-          {/* Hand Left */}
           <div className="absolute top-[14.73px] left-[-15.6px] z-10 w-[383.46px] aspect-[1.5] transform rotate-[15.26deg] max-lg:hidden">
             <Image
               src="/assets/feedback/hand-biscuit-left.png"
               alt="Hand holding product"
               fill
+              loading="lazy"
+              decoding="async"
+              quality={80}
+              sizes="384px"
               className="object-contain"
             />
           </div>
 
-          {/* Wheat */}
           <div className="absolute top-[360.53px] left-[320.65px] z-10 w-[203.24px] aspect-square transform rotate-[11.8deg] opacity-70 max-lg:hidden">
             <Image
               src="/assets/feedback/wheat.png"
               alt="Wheat"
               fill
+              loading="lazy"
+              decoding="async"
+              quality={80}
+              sizes="204px"
               className="object-contain"
             />
           </div>
 
-          {/* Yellow Flower */}
           <div className="absolute top-[393.46px] left-[238.89px] z-10 w-[160.22px] aspect-square transform -rotate-[25.2deg] max-lg:hidden">
             <Image
               src="/assets/feedback/yellow-flower.png"
               alt="Yellow Flower"
               fill
+              loading="lazy"
+              decoding="async"
+              quality={80}
+              sizes="161px"
               className="object-contain"
             />
           </div>
 
-          {/* Floating Biscuit */}
           <div className="absolute top-[266.07px] left-[1115.4px] z-10 w-[194.43px] aspect-[1.96] transform rotate-[43.88deg] max-lg:hidden">
             <Image
               src="/assets/feedback/floating-biscuit.png"
               alt="Floating Biscuit"
               fill
+              loading="lazy"
+              decoding="async"
+              quality={80}
+              sizes="195px"
               className="object-contain"
             />
           </div>
 
-          {/* Hand Right */}
           <div className="absolute top-[189.72px] right-[-50px] lg:left-[1333.69px] z-10 w-[334.08px] aspect-square transform rotate-[7.69deg] max-lg:hidden">
             <Image
               src="/assets/feedback/hand-biscuit-right.png"
               alt="Hand holding product"
               fill
+              loading="lazy"
+              decoding="async"
+              quality={80}
+              sizes="335px"
               className="object-contain"
             />
           </div>
 
-          {/* Content */}
           <div className="relative z-20 flex flex-col items-center text-center px-4 max-w-[850px]">
             <h2 className="font-[Funnel_Display,sans-serif] font-extrabold text-[40px] md:text-[69px] leading-[1.1] text-white mb-5">
               {currentContent.heading}
@@ -138,7 +149,6 @@ export default function FeedbackSection({
           </div>
         </div>
 
-        {/* Bottom Features Row */}
         <div className="border-t border-[#8A8C8A] pt-8 md:pt-12 w-full">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16">
             {currentContent.features?.map((feature, idx) => (

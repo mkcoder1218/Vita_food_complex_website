@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 interface ScrollRevealProps {
   children: React.ReactNode;
@@ -10,7 +10,11 @@ interface ScrollRevealProps {
   yOffset?: number;
   xOffset?: number;
   className?: string;
-  // Controls if animation should only happen once or every time it enters the viewport
+  /**
+   * Set to true only for sections that should reveal a single time.
+   * The default is false so Vita's section reveal animation plays again when
+   * the user scrolls away and then returns from either direction.
+   */
   once?: boolean;
 }
 
@@ -21,37 +25,29 @@ export default function ScrollReveal({
   yOffset = 30,
   xOffset = 0,
   className = "",
-  once = false, // Set to false so the animation "gets back" (re-animates) on scrolling
+  once = false,
 }: ScrollRevealProps) {
   const ref = useRef<HTMLDivElement>(null);
-  
+  const reduceMotion = useReducedMotion();
+
   return (
     <motion.div
       ref={ref}
-      initial={{ 
-        opacity: 0, 
-        y: yOffset,
-        x: xOffset
+      initial={
+        reduceMotion
+          ? { opacity: 1, y: 0, x: 0 }
+          : { opacity: 0, y: yOffset, x: xOffset }
+      }
+      whileInView={{ opacity: 1, y: 0, x: 0 }}
+      viewport={{
+        once,
+        amount: 0.12,
+        margin: "0px 0px -8% 0px",
       }}
-      whileInView={{ 
-        opacity: 1, 
-        y: 0,
-        x: 0
-      }}
-      exit={{
-        opacity: 0,
-        y: yOffset,
-        x: xOffset
-      }}
-      viewport={{ 
-        once: once, 
-        amount: 0.15,
-        margin: "-50px 0px -50px 0px"
-      }}
-      transition={{ 
-        duration: duration, 
-        ease: [0.25, 1, 0.5, 1], // Premium easeOutExpo ease curve
-        delay: delay 
+      transition={{
+        duration: reduceMotion ? 0 : duration,
+        ease: [0.25, 1, 0.5, 1],
+        delay: reduceMotion ? 0 : delay,
       }}
       className={className}
     >

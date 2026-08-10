@@ -366,8 +366,11 @@ export default function Footer() {
                   src="/assets/hero/elephant-safari.png"
                   alt="Elephant and Rabbit Safari"
                   fill
+                  loading="lazy"
+                  decoding="async"
+                  quality={85}
+                  sizes="(max-width: 640px) 280px, (max-width: 768px) 340px, (max-width: 1024px) 380px, (max-width: 1280px) 460px, 500px"
                   className="object-contain object-bottom"
-                  priority
                 />
               </div>
             </div>
@@ -533,7 +536,6 @@ export default function Footer() {
             width={1920}
             height={800}
             className="relative z-0 h-auto w-full object-contain"
-            priority
           />
         </div>
 

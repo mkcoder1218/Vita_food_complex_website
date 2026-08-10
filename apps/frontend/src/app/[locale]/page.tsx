@@ -17,34 +17,53 @@ import FeedbackSection from "@frontend/components/sections/FeedbackSection";
 import ScrollReveal from "@frontend/components/ui/ScrollReveal";
 
 const SECTION_COMPONENTS: Record<string, any> = {
-  // kebab-case keys matching DB section types
   hero: HeroSection,
   "hero-video": HeroVideoSection,
   recipes: RecipesSection,
   products: ProductsSection,
   "biscuit-brand": BiscuitBrandSection,
   "social-proof": SocialProofSection,
-
   "quick-facts": QuickFactSection,
   merchandise: MerchandiseSection,
   "social-wall": SocialWallSection,
   partners: PartnerSection,
   "sister-companies": SisterCompaniesSection,
   feedback: FeedbackSection,
-  // PascalCase fallback keys
-  HeroSection,
-  HeroVideoSection,
-  ProductsSection,
-  BiscuitBrandSection,
-  SocialProofSection,
-  RecipesSection,
-  MerchandiseSection,
-  QuickFactSection,
-  SocialWallSection,
-  PartnerSection,
-  SisterCompaniesSection,
-  FeedbackSection,
 };
+
+const SECTION_ALIASES: Record<string, string> = {
+  HeroSection: "hero",
+  HeroVideoSection: "hero-video",
+  ProductsSection: "products",
+  BiscuitBrandSection: "biscuit-brand",
+  SocialProofSection: "social-proof",
+  RecipesSection: "recipes",
+  MerchandiseSection: "merchandise",
+  QuickFactSection: "quick-facts",
+  SocialWallSection: "social-wall",
+  PartnerSection: "partners",
+  SisterCompaniesSection: "sister-companies",
+  FeedbackSection: "feedback",
+};
+
+const DEFAULT_SECTION_ORDER = [
+  "hero",
+  "hero-video",
+  "products",
+  "biscuit-brand",
+  "recipes",
+  "social-proof",
+  "sister-companies",
+  "quick-facts",
+  "merchandise",
+  "social-wall",
+  "partners",
+  "feedback",
+] as const;
+
+function normalizeSectionType(type: string): string {
+  return SECTION_ALIASES[type] ?? type;
+}
 
 export default function Home({
   params: paramsPromise,
@@ -55,34 +74,35 @@ export default function Home({
   const { locale } = params;
   const { page, loading } = usePage("home");
 
-  // If loading or no dynamic page content, render the static version as fallback
-  if (loading || !page || !page.sections || page.sections.length === 0) {
-    return (
-      <main className="flex flex-col min-h-screen bg-white overflow-x-hidden">
-        <ScrollReveal><HeroSection /></ScrollReveal>
-        <ScrollReveal><HeroVideoSection /></ScrollReveal>
-        <ScrollReveal><ProductsSection /></ScrollReveal>
-        <ScrollReveal><BiscuitBrandSection /></ScrollReveal>
-        <ScrollReveal><RecipesSection /></ScrollReveal>
-        <ScrollReveal><SocialProofSection /></ScrollReveal>
-        <ScrollReveal><SisterCompaniesSection /></ScrollReveal>
-        <ScrollReveal><QuickFactSection /></ScrollReveal>
-        <ScrollReveal><MerchandiseSection /></ScrollReveal>
-        <ScrollReveal><SocialWallSection /></ScrollReveal>
-        <ScrollReveal><PartnerSection /></ScrollReveal>
-        <ScrollReveal><FeedbackSection /></ScrollReveal>
-      </main>
-    );
-  }
+  const hasCmsSections =
+    !loading &&
+    Array.isArray(page?.sections) &&
+    page.sections.length > 0;
+
+  // Render the same component tree before and after CMS data arrives. Previously
+  // the static fallback was replaced by a differently keyed dynamic tree, which
+  // remounted image-heavy sections and caused visible image/SVG pop-in.
+  const sections = hasCmsSections
+    ? page.sections.map((section: any) => ({
+        type: normalizeSectionType(section.type),
+        content: section.content,
+      }))
+    : DEFAULT_SECTION_ORDER.map((type) => ({
+        type,
+        content: undefined,
+      }));
 
   return (
     <main className="flex flex-col min-h-screen bg-white overflow-x-hidden">
-      {page.sections.map((section: any, index: number) => {
+      {sections.map((section: any, index: number) => {
         const Component = SECTION_COMPONENTS[section.type];
         if (!Component) return null;
 
         return (
-          <ScrollReveal key={section.id} className="relative">
+          <ScrollReveal
+            key={`${section.type}-${index}`}
+            className="relative"
+          >
             <Component content={section.content} locale={locale} />
           </ScrollReveal>
         );

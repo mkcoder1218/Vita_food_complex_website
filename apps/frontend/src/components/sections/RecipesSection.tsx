@@ -92,11 +92,15 @@ export default function RecipesSection({ content, locale }: { content?: any; loc
                          transition-all duration-500 hover:scale-[1.02] active:scale-[0.97]"
             >
               {/* Image Area */}
-              <div className="relative w-full h-[58%] overflow-hidden">
+              <div className="relative w-full h-[58%] overflow-hidden bg-[#F3F3F3]">
                 <Image
                   src={t_items[index]?.image || recipe.image}
                   alt={t_items[index]?.title || recipe.title}
                   fill
+                  loading="lazy"
+                  decoding="async"
+                  quality={80}
+                  sizes="(max-width: 640px) 230px, (max-width: 768px) 270px, (max-width: 1024px) 320px, 420px"
                   className="object-cover group-hover:scale-110 transition-transform duration-700"
                 />
               </div>

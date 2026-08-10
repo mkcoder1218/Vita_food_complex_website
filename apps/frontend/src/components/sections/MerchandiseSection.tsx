@@ -24,10 +24,6 @@ export default function MerchandiseSection({ content, locale }: { content?: any;
   const MERCH_ITEMS = MERCH_KEYS.map((key, i) => {
     const rawItem = c?.items?.[i];
 
-    // A card only gets the captioned treatment when the CMS content
-    // explicitly provides a title/desc. Missing/undefined fields fall
-    // back to translations; an item with no title AND no desc (and no
-    // translation match) renders as an image-only card.
     const cmsTitle = typeof rawItem?.title === 'string' ? rawItem.title : undefined;
     const cmsDesc = typeof rawItem?.desc === 'string' ? rawItem.desc : undefined;
 
@@ -51,7 +47,8 @@ export default function MerchandiseSection({ content, locale }: { content?: any;
   const handleScroll = () => {
     if (scrollRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
-      const progress = (scrollLeft / (scrollWidth - clientWidth)) * 100;
+      const scrollableWidth = scrollWidth - clientWidth;
+      const progress = scrollableWidth > 0 ? (scrollLeft / scrollableWidth) * 100 : 0;
       setScrollProgress(progress);
     }
   };
@@ -59,7 +56,7 @@ export default function MerchandiseSection({ content, locale }: { content?: any;
   useEffect(() => {
     const el = scrollRef.current;
     if (el) {
-      el.addEventListener('scroll', handleScroll);
+      el.addEventListener('scroll', handleScroll, { passive: true });
       return () => el.removeEventListener('scroll', handleScroll);
     }
   }, []);
@@ -68,7 +65,6 @@ export default function MerchandiseSection({ content, locale }: { content?: any;
     <section className="bg-white py-24 lg:py-32 relative overflow-hidden">
       <div className="max-w-[1920px] mx-auto px-6 sm:px-10 lg:px-[128px] flex flex-col items-center">
 
-        {/* Header Column */}
         <div className="flex flex-col items-center text-center mb-16 lg:mb-20 gap-4">
           <p className="font-['Funnel_Display'] font-medium text-[20px] text-[#404040] leading-tight">
             {c?.label || t("label")}
@@ -78,7 +74,6 @@ export default function MerchandiseSection({ content, locale }: { content?: any;
           </h2>
         </div>
 
-        {/* Horizontal Scroll Container */}
         <div
           ref={scrollRef}
           className="flex items-end gap-6 overflow-x-auto no-scrollbar cursor-grab active:cursor-grabbing pb-12 w-full snap-x snap-mandatory"
@@ -96,10 +91,17 @@ export default function MerchandiseSection({ content, locale }: { content?: any;
                 src={item.image}
                 alt={item.title || 'Merchandise item'}
                 fill
+                loading="lazy"
+                decoding="async"
+                quality={80}
+                sizes={
+                  item.hasCaption
+                    ? '(max-width: 640px) 220px, (max-width: 1024px) 340px, 460px'
+                    : '(max-width: 640px) 110px, (max-width: 1024px) 150px, 200px'
+                }
                 className={`object-cover transition-transform duration-700 group-hover:scale-105 ${item.isSpecial ? 'mix-blend-soft-light' : ''}`}
               />
 
-              {/* Product Info Area — only rendered when the item has a caption */}
               {item.hasCaption && (
                 item.isSpecial ? (
                   <div className="absolute inset-0 flex flex-col justify-end p-4 sm:p-6 lg:p-8 z-10 bg-gradient-to-t from-[#FF0707]/90 to-transparent">
@@ -127,14 +129,13 @@ export default function MerchandiseSection({ content, locale }: { content?: any;
           ))}
         </div>
 
-        {/* Custom Scroll Bar */}
         <div className="mt-8 flex justify-center w-full">
           <div className="relative w-full max-w-[1067px] h-2 bg-[#E5E5E5] rounded-full overflow-hidden">
             <div
               className="absolute top-0 left-0 h-full bg-[#23B349] transition-all duration-100 rounded-full"
               style={{
-                width: '30%', // Simulated thumb width
-                transform: `translateX(${scrollProgress * 2.33}%)` // Factor to map progress to track
+                width: '30%',
+                transform: `translateX(${scrollProgress * 2.33}%)`
               }}
             />
           </div>
