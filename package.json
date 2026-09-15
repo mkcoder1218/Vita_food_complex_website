@@ -2,11 +2,11 @@
   "name": "vita-food-complex",
   "private": true,
   "scripts": {
-    "dev": "turbo run dev",
-    "dev:frontend": "turbo run dev --filter=frontend",
-    "dev:admin": "turbo run dev --filter=admin",
-    "dev:backend": "turbo run dev --filter=backend",
-    "build": "turbo run build",
+    "dev": "node init && turbo run dev",
+    "dev:frontend": "node init && turbo run dev --filter=frontend",
+    "dev:admin": "node init && turbo run dev --filter=admin",
+    "dev:backend": "node init && turbo run dev --filter=backend",
+    "build": "node init && turbo run build",
     "lint": "turbo run lint",
     "type-check": "turbo run type-check",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
